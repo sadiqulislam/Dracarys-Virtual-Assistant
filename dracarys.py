@@ -2,6 +2,7 @@ import pyttsx3
 import datetime
 import pyaudio
 import speech_recognition as sr
+import wikipedia
 
 engine = pyttsx3.init('sapi5')
 
@@ -58,4 +59,14 @@ def takeCommand():
 if __name__ == '__main__':
     #speak("I am Dracarys And I Served Presence")
     wishme()
-    takeCommand()
+    while True:
+        query =takeCommand().lower()
+
+
+        if 'wikipedia' in query:
+            speak("Searching Wikipedia...")
+            query = query.replace("wikipedia","")
+            results = wikipedia.summary(query,sentences=5)
+            speak("According To Wikipedia")
+            speak(results)
+        
