@@ -1,5 +1,7 @@
 import pyttsx3
 import datetime
+import pyaudio
+import speech_recognition as sr
 
 engine = pyttsx3.init('sapi5')
 
@@ -13,6 +15,7 @@ def speak(audio):
     engine.runAndWait()
 
 def wishme():
+
     hour = int(datetime.datetime.now().hour)
     if hour>=0 and hour<12:
         speak("Good Morning,Presence")
@@ -23,6 +26,36 @@ def wishme():
     else:
         speak("Good Night,Presence")
     speak("I Am Dracarys,Sir! What may I Do Now,Sir?")
+
+
+def takeCommand():
+    #It Takes Command From Me Through Microphone and Returns My Speech As A Strings Output
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening...")
+        r.pause_threshold = 1
+        audio = r.listen(source)
+
+    try:
+        print("Recognizing....!")
+        query = r.recognize_google(audio,language="en-US")
+        print(f"User Said:{query}\n")
+
+
+    except Exception as e:
+        #print(e)
+
+        print("Say That Again,Sir,Please!")
+        return "None"
+    return query
+
+
+
+
+
+
+
 if __name__ == '__main__':
     #speak("I am Dracarys And I Served Presence")
     wishme()
+    takeCommand()
